@@ -1,0 +1,18 @@
+FROM balenalib/%%BALENA_MACHINE_NAME%%-debian:stretch-run
+
+# Get add-apt-repository
+RUN apt-get update \
+  && apt-get install -y software-properties-common \
+  && apt-get install apt-transport-https wget \
+  && rm -rf /var/lib/apt/lists/*
+
+# Install osquery
+RUN wget https://pkg.osquery.io/deb/osquery_4.5.1_1.linux.arm64.deb \
+  && sudo dpkg -i osquery_4.5.1_1.linux.arm64.deb \
+  && rm osquery_4.5.1_1.linux.arm64.deb
+
+# Copy the default osquery.conf (However, a custom conf should be specified
+# with `docker run -v osquery.conf:/etc/osquery.conf zwass/osqueryd`
+COPY osquery.conf /etc/osquery/osquery.conf
+
+CMD ["osqueryd", "--config_path=/etc/osquery/osquery.conf", "--verbose"]
