@@ -3,6 +3,6 @@ version: '2.1'
 services:
   osquery:
     restart: always
-    build: ./
+    build: ./osquery
     labels:
       io.balena.features.balena-socket: '1'
