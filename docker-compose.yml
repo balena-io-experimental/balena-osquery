@@ -1,0 +1,8 @@
+version: '2.1'
+
+services:
+  osquery:
+    restart: always
+    build: ./
+    labels:
+      io.balena.features.balena-socket: '1'
